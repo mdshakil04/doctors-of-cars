@@ -4,7 +4,7 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const CheckOut = () => {
   const service = useLoaderData();
-  const { title, _id,price } = service;
+  const { title, _id,price , img} = service;
   const {user} = useContext(AuthContext)
   const handleBookService = event =>{
     event.preventDefault();
@@ -12,16 +12,30 @@ const CheckOut = () => {
     const name = form.name.value;
     const date = form.date.value;
     const email = form.email.value;
-    const order = {
-      customerName: name,
-      customerEmail: email,
-      bookingDate: date,
-      service: _id,
-      servicePrice:price
-
+    const booking = {
+         name,
+         email,
+         date,
+         title,
+         img,
+         _id,
+         price
     }
-      console.log(order)
-     
+      console.log(booking)
+      fetch('http://localhost:5000/bookings',{
+        method: 'POST',
+        headers: {
+          'content-type' : 'application/json'
+        },
+        body: JSON.stringify(booking)
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if(data.insertedId){
+          alert('Service booked successfully')
+        }
+      })
   }
 
 
@@ -64,9 +78,7 @@ const CheckOut = () => {
                   </label>
                   <input
                     defaultValue={'$' + price}
-                    placeholder="Your Phone"
                     className="input input-bordered"
-                    required
                   />
                 </div>
                 <div className="form-control">
@@ -84,10 +96,6 @@ const CheckOut = () => {
                 </div>
               </div>
               <div className="form-control my-6">
-                <textarea
-                  placeholder="Your Message"
-                  className="textarea textarea-bordered textarea-lg w-full mb-4 "
-                ></textarea>
                 <input className="btn btn-outline btn-warning" type="submit" value="Order Confirm" />
               </div>
             </form>

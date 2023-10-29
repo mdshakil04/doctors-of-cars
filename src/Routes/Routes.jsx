@@ -6,6 +6,8 @@ import SignUp from "../Pges/SignUp/SignUp";
 import Services from "../Pges/Home/Services/Services";
 import About from "../Pges/Home/About/About";
 import CheckOut from "../Pges/CheckOut/CheckOut";
+import Bookings from "../Pges/Bookings/Bookings";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
           path:'checkout/:id',
           element: <CheckOut></CheckOut>,
           loader: ({params}) => fetch(`http://localhost:5000/services/${params.id}`)
+        },
+        {
+          path:'/bookings',
+          element:<PrivateRoute><Bookings></Bookings></PrivateRoute>
         }
       ]
     },
