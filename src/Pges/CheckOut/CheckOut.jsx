@@ -18,7 +18,6 @@ const CheckOut = () => {
          date,
          title,
          img,
-         _id,
          price
     }
       console.log(booking)
